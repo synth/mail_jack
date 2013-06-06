@@ -26,6 +26,9 @@ are dynamically evaluated at mail send time with the Proc of your choosing.  Coo
         track.campaign_group = lambda{|mailer| mailer.class.name}
         track.foobarbizbat = lambda{|mailer| Time.now}
       end
+
+      # You can enable Base64 encoding of all the parameters like so:
+      config.encode_to = :your_param_name_that_will_hold_the_encoded_string
     end
 
 == Under the Covers
