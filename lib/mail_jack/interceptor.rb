@@ -7,6 +7,9 @@ module MailJack
       hrefs = hrefs.uniq
 
       querystr = MailJack.trackables.keys.inject({}) {|hash, a| hash[a] = message.send(a); hash}.to_query
+      if MailJack.config.enable_encoding?
+        querystr = "#{MailJack.config.encode_to}=#{Base64.encode64(querystr)}"
+      end
       hrefs.each do |h| 
         q = "?#{querystr}" unless h.include?("?")
         body.gsub!(h, "#{h}#{q}")
