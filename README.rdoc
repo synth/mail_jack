@@ -30,18 +30,18 @@ are dynamically evaluated at mail send time with the Proc of your choosing.  Coo
 
 == Under the Covers
 
-    * You specify what mailer classes you want to track, and any other options
-    * You specify the attributes that will be tracked the Proc that should be used to figure out the value
-    * Mail::Message class has the trackable keys added as attr_accessors
-    * ActionMailer::Base#mail method is decorated via alias_method_chain for each mailer class specified 
-    * MailJack registers a Mail::Interceptor to intercept all outgoing mail
-    * When ActionMailer::Base#mail is called, the undecorated method is called first, then MailJack
-     *  fetches the values of the attributes specified by calling the Proc specified and passing in the mailer
-     *  instance, so You can figure out what value should be returned
-    * Those values are then assigned to the Mail::Message class via the accessors we added in step 3
-    * The mail is sent and is subsequently intercepted by MailJack::Interceptor which then reads the
-        the values passed along into the Mail::Message, creates a query string, and finds all relevant href's
-        and appends the tracking parameters
+* You specify what mailer classes you want to track, and any other options
+* You specify the attributes that will be tracked the Proc that should be used to figure out the value
+* Mail::Message class has the trackable keys added as attr_accessors
+* ActionMailer::Base#mail method is decorated via alias_method_chain for each mailer class specified 
+* MailJack registers a Mail::Interceptor to intercept all outgoing mail
+* When ActionMailer::Base#mail is called, the undecorated method is called first, then MailJack
+*  fetches the values of the attributes specified by calling the Proc specified and passing in the mailer
+*  instance, so You can figure out what value should be returned
+* Those values are then assigned to the Mail::Message class via the accessors we added in step 3
+* The mail is sent and is subsequently intercepted by MailJack::Interceptor which then reads the
+   the values passed along into the Mail::Message, creates a query string, and finds all relevant href's
+   and appends the tracking parameters
 
 == Copyright
 
