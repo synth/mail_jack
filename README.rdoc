@@ -39,9 +39,7 @@ are dynamically evaluated at mail send time with the Proc of your choosing.  Coo
 *  fetches the values of the attributes specified by calling the Proc specified and passing in the mailer
 *  instance, so You can figure out what value should be returned
 * Those values are then assigned to the Mail::Message class via the accessors we added in step 3
-* The mail is sent and is subsequently intercepted by MailJack::Interceptor which then reads the
-   the values passed along into the Mail::Message, creates a query string, and finds all relevant href's
-   and appends the tracking parameters
+* The mail is sent and is subsequently intercepted by MailJack::Interceptor which then reads the values passed along into the Mail::Message, creates a query string, and finds all relevant href's and appends the tracking parameters
 
 == Copyright
 
