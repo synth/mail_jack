@@ -1,6 +1,8 @@
 require 'mail_jack/config'
 require 'mail_jack/mailer'
 require 'mail_jack/interceptor'
+require 'mail_jack/params_decoder'
+require 'mail_jack/railtie'
 ##################################################################################
 #
 #  module MailJack
@@ -73,6 +75,7 @@ module MailJack
 
     # register the interceptor
     Mail.register_interceptor(MailJack::Interceptor)
+
   end
 
   # Fetch attributes gets the dynamically defined attributes
