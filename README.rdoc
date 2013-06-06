@@ -1,10 +1,10 @@
 = MailJack
 
-=== like LoJack...get it?
+Like LoJack...get it?
 
- This module will append query parameters of your choosing to every link
- in the mailers you specify so that you can track click throughs.  The parameters
- are dynamically evaluated at mail send time with the Proc of your choosing.  Cool, huh.  
+This module will append query parameters of your choosing to every link
+in the mailers you specify so that you can track click throughs.  The parameters
+are dynamically evaluated at mail send time with the Proc of your choosing.  Cool, huh.  
 
 == Usage:
 
