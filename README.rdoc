@@ -1,19 +1,50 @@
-= mail-jack
+= MailJack
 
-Description goes here.
+    - like LoJack...get it?
 
-== Contributing to mail-jack
- 
-* Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet.
-* Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it.
-* Fork the project.
-* Start a feature/bugfix branch.
-* Commit and push until you are happy with your contribution.
-* Make sure to add tests for it. This is important so I don't break it in a future version unintentionally.
-* Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.
+ This module will append query parameters of your choosing to every link
+ in the mailers you specify so that you can track click throughs.  The parameters
+ are dynamically evaluated at mail send time with the Proc of your choosing.  Cool, huh.  
+
+ == Usage:
+
+    # config/initializers/mail_tracker.rb
+    MailJack.config do |config|
+
+      # specify what mailer classes you want to add tracking to
+      config.mailers = [:user_notifier]
+
+      # specify the regex that should be used filter hrefs
+      # (this is useful so you don't add tracking params to 3rd party urls off your site)
+      config.href_filter = /myapplication.com/
+
+      # MOST IMPORTANT PART
+      # Specify what attributes you want to track and the Proc that figures them out
+      # The attributes can be any name.  The value must be an object that responds to #call
+      config.trackable do |track|
+        track.campaign = lambda{|mailer| mailer.action_name}
+        track.campaign_group = lambda{|mailer| mailer.class.name}
+        track.foobarbizbat = lambda{|mailer| Time.now}
+      end
+    end
+
+ == Under the Covers
+
+    * You specify what mailer classes you want to track, and any other options
+    * You specify the attributes that will be tracked the Proc that should be used to figure out the value
+    * Mail::Message class has the trackable keys added as attr_accessors
+    * ActionMailer::Base#mail method is decorated via alias_method_chain for each mailer class specified 
+    * MailJack registers a Mail::Interceptor to intercept all outgoing mail
+    * When ActionMailer::Base#mail is called, the undecorated method is called first, then MailJack
+     *  fetches the values of the attributes specified by calling the Proc specified and passing in the mailer
+     *  instance, so You can figure out what value should be returned
+    * Those values are then assigned to the Mail::Message class via the accessors we added in step 3
+    * The mail is sent and is subsequently intercepted by MailJack::Interceptor which then reads the
+        the values passed along into the Mail::Message, creates a query string, and finds all relevant href's
+        and appends the tracking parameters
 
 == Copyright
 
-Copyright (c) 2013 Peter P. See LICENSE.txt for
+Copyright (c) 2013 Peter Philips. See LICENSE.txt for
 further details.
 
