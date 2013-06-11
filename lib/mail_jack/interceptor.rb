@@ -11,7 +11,7 @@ module MailJack
         querystr = "#{MailJack.config.encode_to}=#{Base64.encode64(querystr)}"
       end
       hrefs.each do |h| 
-        q = "?#{querystr}" unless h.include?("?")
+        q = h.include?("?") ?  "&#{querystr}" : "?#{querystr}" 
         body.gsub!(h, "#{h}#{q}")
       end
       message.body = body
