@@ -1,6 +1,6 @@
 module MailJack
   class Config
-    attr_accessor :mailers, :href_filter, :trackables, :encode_to
+    attr_accessor :mailers, :href_filter, :trackables, :encode_to, :configured
     def trackable
 
       # use OpenStruct for sugary assignment
@@ -15,5 +15,8 @@ module MailJack
       self.encode_to.present?
     end
 
+    def configured?
+      @configured
+    end
   end
 end

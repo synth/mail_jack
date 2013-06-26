@@ -56,6 +56,8 @@ module MailJack
 
     # return configuration if already configured
     return @@config if defined?(@@config) and @@config.kind_of?(Config)
+    
+    raise ArgumentError, "you must configure MailJack to use it.  call MailJack.config{|config| ...} from an initializer" unless block_given?
 
     # yield configuration
     @@config = Config.new
@@ -64,7 +66,7 @@ module MailJack
     # dynamically define the accessors onto Mail::Message
     # so we can assign them later in the Interceptor
     Mail::Message.class_eval do
-      attr_accessor *@@config.trackables.keys
+      attr_accessor *@@config.trackables.keys if @@config.trackables
     end
 
     # include the module that decorates(ie monkey patches)
@@ -76,8 +78,13 @@ module MailJack
     # register the interceptor
     Mail.register_interceptor(MailJack::Interceptor)
 
+    @@config.configured = true
   end
 
+  def self.configured?
+    defined?(@@config) and @@config.configured?
+  end
+  
   # Fetch attributes gets the dynamically defined attributes
   # off the object passed in, the object is ActionMailer::Base instance
   def self.fetch_attributes(mailer)
