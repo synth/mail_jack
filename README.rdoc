@@ -1,7 +1,5 @@
 = MailJack
 
-Like LoJack...get it?
-
 This module will append query parameters of your choosing to every link
 in the mailers you specify so that you can track click throughs.  The parameters
 are dynamically evaluated at mail send time with the Proc of your choosing.  Cool, huh.  
@@ -44,6 +42,9 @@ are dynamically evaluated at mail send time with the Proc of your choosing.  Coo
 * Those values are then assigned to the Mail::Message class via the accessors we added in step 3
 * The mail is sent and is subsequently intercepted by MailJack::Interceptor which then reads the values passed along into the Mail::Message, creates a query string, and finds all relevant href's and appends the tracking parameters
 
+== What's up with this name?
+
+  Like LoJack...get it?  No? ok, well, naming things is probably the most difficult aspect of software engineering and so the idea is that you are tracking your emails, hence MailJack.  Maybe MailTrack would've been better, but that's not very creative now is it?
 == Copyright
 
 Copyright (c) 2013 Peter Philips. See LICENSE.txt for
