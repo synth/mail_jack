@@ -6,8 +6,8 @@ module MailJack
       end
     end
 
-    def mail_with_tracking(*args)
-      message = mail_without_tracking(*args)
+    def mail_with_tracking(*args, &block)
+      message = mail_without_tracking(*args, &block)
 
       # get a map of the required attributes
       attributes = MailJack.fetch_attributes(self)
